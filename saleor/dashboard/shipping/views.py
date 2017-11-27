@@ -11,6 +11,7 @@ from ...core.utils import get_paginator_items
 from ..views import staff_member_required
 from ...shipping.models import ShippingMethod, ShippingMethodCountry
 from ...settings import DASHBOARD_PAGINATE_BY
+from .filters import ShippingMethodFilter
 from .forms import ShippingMethodForm, ShippingMethodCountryForm
 
 
@@ -19,9 +20,12 @@ from .forms import ShippingMethodForm, ShippingMethodCountryForm
 def shipping_method_list(request):
     methods = (ShippingMethod.objects.prefetch_related('price_per_country')
                .order_by('name'))
+    shipping_method_filter = ShippingMethodFilter(
+        request.GET, queryset=methods)
     methods = get_paginator_items(
-        methods, DASHBOARD_PAGINATE_BY, request.GET.get('page'))
-    ctx = {'shipping_methods': methods}
+        shipping_method_filter.qs, DASHBOARD_PAGINATE_BY,
+        request.GET.get('page'))
+    ctx = {'shipping_methods': methods, 'filter': shipping_method_filter}
     return TemplateResponse(request, 'dashboard/shipping/list.html', ctx)
 
 
