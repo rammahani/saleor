@@ -583,7 +583,8 @@ def stock_location_list(request):
     stock_location_filter = StockLocationFilter(
         request.GET, queryset=stock_locations)
     stock_locations = get_paginator_items(
-        stock_location_filter.qs, DASHBOARD_PAGINATE_BY, request.GET.get('page'))
+        stock_location_filter.qs, DASHBOARD_PAGINATE_BY,
+        request.GET.get('page'))
     ctx = {'locations': stock_locations, 'filter': stock_location_filter}
     return TemplateResponse(
         request,
