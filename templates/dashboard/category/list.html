@@ -127,7 +127,7 @@
                     </td>
                     <td class="nowrap">
                       {% if node.description %}
-                        {{ node.description }}
+                        {{ node.description|truncatewords:10 }}
                       {% else %}
                         &nbsp;
                       {% endif %}
