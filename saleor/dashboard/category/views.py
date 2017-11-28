@@ -27,8 +27,9 @@ def category_list(request, root_pk=None):
     category_filter = CategoryFilter(request.GET, queryset=categories)
     categories = get_paginator_items(
         category_filter.qs, DASHBOARD_PAGINATE_BY, request.GET.get('page'))
-    ctx = {'categories': categories, 'path': path, 'root': root,
-           'filter': category_filter}
+    ctx = {
+        'categories': categories, 'path': path, 'root': root,
+        'filter': category_filter}
     return TemplateResponse(request, 'dashboard/category/list.html', ctx)
 
 
